@@ -10,3 +10,4 @@ override.tf.json
 
 *.tfvars
 !terraform.tfvars.example
+!task3/terraform.tfvars
