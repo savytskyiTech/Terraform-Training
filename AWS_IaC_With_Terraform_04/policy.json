@@ -7,7 +7,7 @@
         "s3:PutObject",
         "s3:DeleteObject"
       ],
-      "Resource": "${bucket_arn}/*"
+      "Resource": "arn:aws:s3:::${bucket_name}/*"
     }
   ]
 }

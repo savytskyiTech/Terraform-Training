@@ -1,16 +1,12 @@
 resource "aws_iam_group" "main" {
   name = "${var.project}-${var.title}-group"
-
-  tags = {
-    Project = var.project
-  }
 }
 
 resource "aws_iam_policy" "main" {
   name        = "${var.project}-${var.title}-policy"
   description = "Write access to the designated S3 bucket"
   policy = templatefile("${path.module}/policy.json", {
-    bucket_arn = "arn:aws:s3:::${var.bucket_name}"
+    bucket_name = var.bucket_name
   })
 
   tags = {
