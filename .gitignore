@@ -10,6 +10,7 @@ crash.*.log
 # Local variable values and CLI overrides
 *.tfvars
 !*.tfvars.example
+!AWS_IaC_With_Terraform_04/terraform.tfvars
 override.tf
 override.tf.json
 *_override.tf
