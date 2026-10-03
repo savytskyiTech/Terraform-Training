@@ -1,9 +1,35 @@
-data "aws_instance" "public" {
-  instance_id = var.public_instance_id
+data "aws_network_interface" "public" {
+  filter {
+    name   = "attachment.instance-id"
+    values = [var.public_instance_id]
+  }
+
+  filter {
+    name   = "attachment.device-index"
+    values = ["0"]
+  }
+
+  filter {
+    name   = "subnet-id"
+    values = [var.public_subnet_id]
+  }
 }
 
-data "aws_instance" "private" {
-  instance_id = var.private_instance_id
+data "aws_network_interface" "private" {
+  filter {
+    name   = "attachment.instance-id"
+    values = [var.private_instance_id]
+  }
+
+  filter {
+    name   = "attachment.device-index"
+    values = ["0"]
+  }
+
+  filter {
+    name   = "subnet-id"
+    values = [var.private_subnet_id]
+  }
 }
 
 resource "aws_security_group" "ssh" {
@@ -92,24 +118,24 @@ resource "aws_security_group_rule" "private_http_icmp" {
 
 resource "aws_network_interface_sg_attachment" "public_ssh" {
   security_group_id    = aws_security_group.ssh.id
-  network_interface_id = data.aws_instance.public.primary_network_interface_id
+  network_interface_id = data.aws_network_interface.public.id
 }
 
 resource "aws_network_interface_sg_attachment" "public_http" {
   security_group_id    = aws_security_group.public_http.id
-  network_interface_id = data.aws_instance.public.primary_network_interface_id
+  network_interface_id = data.aws_network_interface.public.id
 
   depends_on = [aws_network_interface_sg_attachment.public_ssh]
 }
 
 resource "aws_network_interface_sg_attachment" "private_ssh" {
   security_group_id    = aws_security_group.ssh.id
-  network_interface_id = data.aws_instance.private.primary_network_interface_id
+  network_interface_id = data.aws_network_interface.private.id
 }
 
 resource "aws_network_interface_sg_attachment" "private_http" {
   security_group_id    = aws_security_group.private_http.id
-  network_interface_id = data.aws_instance.private.primary_network_interface_id
+  network_interface_id = data.aws_network_interface.private.id
 
   depends_on = [aws_network_interface_sg_attachment.private_ssh]
 }
