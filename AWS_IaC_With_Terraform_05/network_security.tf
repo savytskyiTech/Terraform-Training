@@ -8,11 +8,6 @@ data "aws_network_interface" "public" {
     name   = "attachment.device-index"
     values = ["0"]
   }
-
-  filter {
-    name   = "subnet-id"
-    values = [var.public_subnet_id]
-  }
 }
 
 data "aws_network_interface" "private" {
@@ -24,11 +19,6 @@ data "aws_network_interface" "private" {
   filter {
     name   = "attachment.device-index"
     values = ["0"]
-  }
-
-  filter {
-    name   = "subnet-id"
-    values = [var.private_subnet_id]
   }
 }
 
