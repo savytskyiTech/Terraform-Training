@@ -1,8 +1,8 @@
 region              = "eu-west-1"
 project_id          = "cmtr-p9rj0mw4"
 allowed_ip_range    = ["18.153.146.156/32", "178.212.106.203/32"]
-vpc_id              = "vpc-09f2d8f546b0f535c"
-public_subnet_id    = "subnet-0c6a8998da3ea4e32"
-private_subnet_id   = "subnet-03c372d27f8e08e8c"
-public_instance_id  = "i-076d8c1227334ba0e"
-private_instance_id = "i-070b24ba50a03df2b"
+vpc_id              = "vpc-0a0363c15455fdf03"
+public_subnet_id    = "subnet-038c890a825ed7244"
+private_subnet_id   = "subnet-00c20926371665f9e"
+public_instance_id  = "i-0fdcb5da97ef7a06f"
+private_instance_id = "i-0c04935f4f776f5d6"
