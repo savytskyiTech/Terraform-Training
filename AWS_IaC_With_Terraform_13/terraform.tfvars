@@ -1,0 +1,9 @@
+aws_region          = "eu-west-1"
+project_id          = "cmtr-p9rj0mw4"
+public_subnet_names = ["cmtr-p9rj0mw4-public-subnet1", "cmtr-p9rj0mw4-public-subnet2"]
+instance_type       = "t3.micro"
+desired_capacity    = 1
+min_size            = 1
+max_size            = 2
+blue_weight         = 100
+green_weight        = 0

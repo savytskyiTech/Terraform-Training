@@ -13,3 +13,7 @@
 Каталоги містять фінальні конфігурації після виконання задач. У README кожної задачі збережено контекст і послідовність команд. Під час виконання всі фінальні плани показали `No changes`, а конфігурації пройшли `terraform fmt` і `terraform validate`.
 
 Назви bucket і ресурсів належать тимчасовим лабораторним середовищам. Для повторення вправ потрібні власні підготовлені ресурси, AWS-доступ та актуальні backend-параметри. State-файли й credentials до Git не додаються.
+
+## Задача 13 — Blue/Green
+
+[Задача 13](AWS_IaC_With_Terraform_13/README.md) поєднує Application Load Balancer, weighted target groups, Launch Templates та Auto Scaling groups. Початкові ваги Blue/Green — `100/0`; user data створює сторінку з назвою відповідного середовища.
