@@ -15,8 +15,9 @@ crash.*.log
 !AWS_IaC_With_Terraform_05/terraform.tfvars
 !AWS_IaC_With_Terraform_08/terraform.tfvars
 !AWS_IaC_With_Terraform_09/terraform.tfvars
-!tf_code_1/terraform.tfvars
-!tf_code_2/terraform.tfvars
+!AWS_IaC_With_Terraform_10/tf_code_1/terraform.tfvars
+!AWS_IaC_With_Terraform_10/tf_code_2/terraform.tfvars
+!AWS_IaC_With_Terraform_12/terraform.tfvars
 override.tf
 override.tf.json
 *_override.tf
