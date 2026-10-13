@@ -22,7 +22,7 @@ AWS_IaC_With_Terraform_14/
 | Модуль | Вміст | Outputs |
 | --- | --- | --- |
 | `network` | VPC `10.10.0.0/16`, три public subnets, IGW, route table, маршрут до інтернету та associations | VPC ID, subnet IDs |
-| `network_security` | SSH SG, public HTTP SG, private HTTP SG та окремі ingress/egress rules | Map security group IDs |
+| `network_security` | SSH SG, public HTTP SG, private HTTP SG із вкладеними ingress/egress rules | Map security group IDs |
 | `application` | Amazon Linux 2023 AMI data source, Launch Template, ASG, ALB, target group, HTTP listener, ASG attachment | Load balancer DNS name |
 
 Підмережі мають CIDR `10.10.1.0/24`, `10.10.3.0/24`, `10.10.5.0/24` і розташовані в `eu-west-1a`, `eu-west-1b`, `eu-west-1c`. Імена ресурсів генеруються з `project_id` або передаються через inputs модулів.
@@ -30,6 +30,8 @@ AWS_IaC_With_Terraform_14/
 Маршрут `0.0.0.0/0` до IGW описано вкладеним блоком `route` у `aws_route_table`. Окремий ресурс `aws_route` не використовується, оскільки перевірка платформи його не дозволяє.
 
 SSH та HTTP до ALB дозволені тільки з `18.153.146.156/32` і `194.147.221.112/32`. HTTP до інстансів дозволений від public HTTP security group балансувальника. EC2 використовують SSH і private HTTP SG; ALB — public HTTP SG.
+
+Усі ingress/egress правила задані вкладеними блоками в `aws_security_group`; окремі ресурси `aws_security_group_rule` не використовуються відповідно до обмеження перевірки платформи.
 
 ASG має `desired_capacity = 2`, `min_size = 2`, `max_size = 2`. Target group приєднана через `aws_autoscaling_attachment`; ASG ігнорує зміни `load_balancers` і `target_group_arns`.
 
@@ -54,6 +56,6 @@ terraform plan -out=task14.tfplan
 
 Root `terraform validate` перевіряє також усі підключені child modules. Несекретні значення містяться в `terraform.tfvars`; credentials передаються через AWS profile або environment.
 
-Перевірка 13.10.2026: `init`, `fmt -recursive -check` та `validate` успішні; фінальний план після перенесення маршруту у вкладений блок містить **24 create, 0 update, 0 destroy**. JSON плану підтверджує відсутність `aws_route` та наявність маршруту в `aws_route_table`. Синтаксис Bash user data також перевірено. Workflow задачі завершується планом; AWS-ресурси під час локальної перевірки не створювалися.
+Перевірка 13.10.2026: `init`, `fmt -recursive -check` та `validate` успішні; фінальний план після перенесення маршруту й security group rules у вкладені блоки містить **18 create, 0 update, 0 destroy**. JSON плану підтверджує відсутність `aws_route` і `aws_security_group_rule`, наявність маршруту в `aws_route_table`, обидва дозволені CIDR для SSH/HTTP та вихідний доступ. Синтаксис Bash user data також перевірено. Workflow задачі завершується планом; AWS-ресурси під час локальної перевірки не створювалися.
 
 Після розгортання DNS і URL доступні через outputs `load_balancer_dns_name` та `application_url`.
