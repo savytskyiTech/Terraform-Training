@@ -17,3 +17,7 @@
 ## Задача 13 — Blue/Green
 
 [Задача 13](AWS_IaC_With_Terraform_13/README.md) поєднує Application Load Balancer, weighted target groups, Launch Templates та Auto Scaling groups. Початкові ваги Blue/Green — `100/0`; user data створює сторінку з назвою відповідного середовища.
+
+## Задача 14 — інфраструктура через модулі
+
+[Задача 14](AWS_IaC_With_Terraform_14/README.md) створює VPC з трьома публічними підмережами, security groups і вебзастосунок через модулі `network`, `network_security` та `application`. ALB направляє HTTP на два інстанси ASG; сторінка показує instance ID та UUID машини.
