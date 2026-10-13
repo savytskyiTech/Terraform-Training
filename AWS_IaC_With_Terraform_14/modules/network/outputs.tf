@@ -7,5 +7,5 @@ output "subnet_ids" {
   description = "Public subnet IDs with the internet route and route table associations configured."
   value       = [for subnet in aws_subnet.public : subnet.id]
 
-  depends_on = [aws_route.internet, aws_route_table_association.public]
+  depends_on = [aws_route_table.public, aws_route_table_association.public]
 }

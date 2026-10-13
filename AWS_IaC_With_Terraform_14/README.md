@@ -27,6 +27,8 @@ AWS_IaC_With_Terraform_14/
 
 Підмережі мають CIDR `10.10.1.0/24`, `10.10.3.0/24`, `10.10.5.0/24` і розташовані в `eu-west-1a`, `eu-west-1b`, `eu-west-1c`. Імена ресурсів генеруються з `project_id` або передаються через inputs модулів.
 
+Маршрут `0.0.0.0/0` до IGW описано вкладеним блоком `route` у `aws_route_table`. Окремий ресурс `aws_route` не використовується, оскільки перевірка платформи його не дозволяє.
+
 SSH та HTTP до ALB дозволені тільки з `18.153.146.156/32` і `194.147.221.112/32`. HTTP до інстансів дозволений від public HTTP security group балансувальника. EC2 використовують SSH і private HTTP SG; ALB — public HTTP SG.
 
 ASG має `desired_capacity = 2`, `min_size = 2`, `max_size = 2`. Target group приєднана через `aws_autoscaling_attachment`; ASG ігнорує зміни `load_balancers` і `target_group_arns`.
@@ -52,6 +54,6 @@ terraform plan -out=task14.tfplan
 
 Root `terraform validate` перевіряє також усі підключені child modules. Несекретні значення містяться в `terraform.tfvars`; credentials передаються через AWS profile або environment.
 
-Перевірка 13.10.2026: `init`, `fmt -recursive -check` та `validate` успішні; план містить **25 create, 0 update, 0 destroy**. Синтаксис Bash user data також перевірено. Workflow задачі завершується планом; AWS-ресурси під час локальної перевірки не створювалися.
+Перевірка 13.10.2026: `init`, `fmt -recursive -check` та `validate` успішні; фінальний план після перенесення маршруту у вкладений блок містить **24 create, 0 update, 0 destroy**. JSON плану підтверджує відсутність `aws_route` та наявність маршруту в `aws_route_table`. Синтаксис Bash user data також перевірено. Workflow задачі завершується планом; AWS-ресурси під час локальної перевірки не створювалися.
 
 Після розгортання DNS і URL доступні через outputs `load_balancer_dns_name` та `application_url`.
